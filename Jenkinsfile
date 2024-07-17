@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout your Git repository
-                git 'https://github.com/yourusername/your-android-app.git'
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/rudra2425/Jade-Player.git']])
             }
         }
 
