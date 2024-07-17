@@ -18,31 +18,25 @@ pipeline {
                 // Accept Android SDK licenses using the full path
                 sh '/usr/lib/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses < /dev/null'
             }
+        }
         stage('Build') {
             steps {
-                // Set up the Android SDK licenses
-                sh 'yes | sdkmanager --licenses'
-
                 // Build your Android project
                 sh './gradlew clean assembleDebug'
             }
         }
-        
-
         stage('Unit Tests') {
             steps {
                 // Run unit tests if applicable
                 sh './gradlew test'
             }
         }
-
         stage('UI Tests') {
             steps {
                 // Run UI tests if applicable
                 sh './gradlew connectedAndroidTest'
             }
         }
-
         stage('Deploy APK') {
             steps {
                 // Example: Deploy APK to Firebase App Distribution
@@ -58,5 +52,4 @@ pipeline {
             cleanWs()
         }
     }
-}
 }
