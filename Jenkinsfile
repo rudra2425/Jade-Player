@@ -21,14 +21,17 @@ pipeline {
         }
         stage('Prepare Gradle') {
             steps {
-                // Grant execute permissions to the gradlew script
-                sh 'chmod +x ./gradlew'
+                 dir('path/to/your/project/root') {
+                    // Make sure gradlew is executable
+                    sh 'chmod +x gradlew'
+                }
             }
         }
         stage('Build') {
             steps {
-                // Build your Android project
-                sh './gradlew clean assembleDebug'
+                dir('path/to/your/project/root') {
+                    sh './gradlew clean assembleDebug --stacktrace'
+                }
             }
         }
         stage('Unit Tests') {
