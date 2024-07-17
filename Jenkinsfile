@@ -19,6 +19,12 @@ pipeline {
                 sh '/usr/lib/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses < /dev/null'
             }
         }
+        stage('Prepare Gradle') {
+            steps {
+                // Grant execute permissions to the gradlew script
+                sh 'chmod +x ./gradlew'
+            }
+        }
         stage('Build') {
             steps {
                 // Build your Android project
