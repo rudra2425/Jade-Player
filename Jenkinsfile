@@ -2,8 +2,8 @@ pipeline {
     agent any  // Executes this pipeline on any available agent
 
     environment {
-        ANDROID_HOME = " /usr/lib/android-sdk/"  // Path to your Android SDK
-        PATH = "${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}"
+        ANDROID_HOME = "/usr/lib/android-sdk"
+        PATH = "${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/platform-tools:${env.PATH}"
     }
 
     stages {
@@ -13,7 +13,11 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/rudra2425/Jade-Player.git']])
             }
         }
-
+        stage('Accept SDK Licenses') {
+            steps {
+                // Accept Android SDK licenses using the full path
+                sh '/usr/lib/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses < /dev/null'
+            }
         stage('Build') {
             steps {
                 // Set up the Android SDK licenses
@@ -23,12 +27,7 @@ pipeline {
                 sh './gradlew clean assembleDebug'
             }
         }
-        stage('Accept SDK Licenses') {
-            steps {
-                // Accept Android SDK licenses
-                sh '/usr/lib/android-sdk/tools/bin/sdkmanager --licenses'
-            }
-        }
+        
 
         stage('Unit Tests') {
             steps {
