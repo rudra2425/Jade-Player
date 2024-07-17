@@ -23,6 +23,12 @@ pipeline {
                 sh './gradlew clean assembleDebug'
             }
         }
+        stage('Accept SDK Licenses') {
+            steps {
+                // Accept Android SDK licenses
+                sh '/usr/lib/android-sdk/tools/bin/sdkmanager --licenses'
+            }
+        }
 
         stage('Unit Tests') {
             steps {
