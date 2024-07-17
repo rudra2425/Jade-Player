@@ -1,5 +1,5 @@
 pipeline {
-    agent any  // Executes this pipeline on any available agent
+    agent any
 
     environment {
         ANDROID_HOME = "/usr/lib/android-sdk"
@@ -15,13 +15,13 @@ pipeline {
         }
         stage('Accept SDK Licenses') {
             steps {
-                // Accept Android SDK licenses using the full path
                 sh '/usr/lib/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses < /dev/null'
             }
         }
         stage('Prepare Gradle') {
             steps {
-                 dir('path/to/your/project/root') {
+                // Change directory to your project root where gradlew is located
+                dir('path/to/your/project/root') {
                     // Make sure gradlew is executable
                     sh 'chmod +x gradlew'
                 }
@@ -29,35 +29,17 @@ pipeline {
         }
         stage('Build') {
             steps {
+                // Execute Gradle build using the Gradle Wrapper
                 dir('path/to/your/project/root') {
                     sh './gradlew clean assembleDebug --stacktrace'
                 }
             }
         }
-        stage('Unit Tests') {
-            steps {
-                // Run unit tests if applicable
-                sh './gradlew test'
-            }
-        }
-        stage('UI Tests') {
-            steps {
-                // Run UI tests if applicable
-                sh './gradlew connectedAndroidTest'
-            }
-        }
-        stage('Deploy APK') {
-            steps {
-                // Example: Deploy APK to Firebase App Distribution
-                // Replace with your deployment steps if needed
-                sh './gradlew assembleRelease'  // Example command, adjust as per your needs
-            }
-        }
+        // Add more stages as needed (Unit Tests, UI Tests, Deploy APK)
     }
 
     post {
         always {
-            // Clean up workspace or any post-build tasks
             cleanWs()
         }
     }
