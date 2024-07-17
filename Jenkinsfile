@@ -2,7 +2,7 @@ pipeline {
     agent any  // Executes this pipeline on any available agent
 
     environment {
-        ANDROID_HOME = "/usr/lib/android-sdk/"  // Path to your Android SDK
+        ANDROID_HOME = " /usr/lib/android-sdk/"  // Path to your Android SDK
         PATH = "${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}"
     }
 
